@@ -1,13 +1,15 @@
+import com.gumtree.tasks.Main;
 import com.gumtree.tasks.domain.Person;
 import com.gumtree.tasks.process.InputProcessor;
-import org.joda.time.format.DateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Sameer on 25/01/2015.
@@ -30,19 +32,27 @@ public class TestMain {
     }
 
     @Test
-    public void testCount() throws IOException {
+    public void noOfMales() throws IOException {
         List<Person> persons = inputProcessor.process(inputStream);
-        assertEquals(5,persons.size());
+        Main main = new Main(persons);
+        assertEquals(3, main.getCountOfMales());
     }
 
     @Test
-    public void testBill() throws IOException {
+    public void oldestPerson() throws IOException {
         List<Person> persons = inputProcessor.process(inputStream);
-        Person bill = persons.get(0);
-        assertEquals("Bill McKnight",bill.getFullName());
-        assertEquals("Male",bill.getGender());
-        assertEquals("16/03/77",bill.getDateOfBirth().toString(DateTimeFormat.forPattern("dd/MM/yy")));
+        Main main = new Main(persons);
+        assertEquals("Wes Jackson", main.getOldestPerson().getFullName());
+    }
 
+    @Test
+    public void daysBillOlderThanPaul() throws IOException {
+        List<Person> persons = inputProcessor.process(inputStream);
+        Main main = new Main(persons);
+        assertEquals(2862, main.daysByWhichBillIsOlderThanPaul());
 
     }
+
+
+
 }
